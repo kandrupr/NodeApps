@@ -1,0 +1,22 @@
+{
+  "name": "kandruprmailer",
+  "version": "1.0.0",
+  "description": "mailer for personal website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "nodemailer": "^4.6.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
