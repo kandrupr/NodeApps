@@ -9,7 +9,7 @@ const router = express.Router();
 // @access  Public
 router.get('/', (req, res) => {
     //res.json({operation: "List of current weight classes"});
-    request('https://www.jfgjeaofnaofnkf.com/athletes/all?filters%5B0%5D=status%3A23', function (error, response, body) {
+    request('https://www.ufc.com/athletes/all?filters%5B0%5D=status%3A23', function (error, response, body) {
         if((response && response.statusCode) === 200) {
             const $ = cheerio.load(body);
             const list = $('#block-mainpagecontent div:nth-child(1) div.block-facet--links:nth-child(2) div.facets-widget-links ul li.facet-item').text();
