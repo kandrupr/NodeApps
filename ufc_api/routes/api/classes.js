@@ -4,6 +4,17 @@ const cheerio = require('cheerio')
 
 const router = express.Router();
 
+const wClass = {
+    "flyweight": 2,
+    "bantamweight": 3,
+    "featherweight": 4,
+    "lightweight": 5,
+    "welterweight": 6,
+    "middleweight": 7,
+    "lightheavyweight": 8,
+    "heavyweight": 9
+};
+
 // @route   GET api/classes
 // @desc    Send a request to the ufc website and get a list of the current weight classes
 // @access  Public
@@ -32,10 +43,20 @@ router.get('/:class', (req, res) => {
     //res.json({operation: "Top fighters of " + req.params.class});
     request('https://www.ufc.com/rankings', function (error, response, body) {
         if((response && response.statusCode) === 200) {
-            const $ = cheerio.load(body);
-            const fighters = $('#block-mainpagecontent div div:nth-child(2) div div div div.view-content').text();
-            console.log(fighters);
-            res.json({});
+            var param = wClass[req.params.class];
+            var top = [];
+            if(param !== undefined) {
+                const $ = cheerio.load(body);
+                const main = "#block-mainpagecontent div div:nth-child(2) div div div div.view-content div.view-grouping:nth-child(" + param +") "
+                const champion = $(main + 'div.info h5').text();
+                top.push({
+                    "Champion": champion,
+                });            
+                res.json({"division": top});
+                console.log(top);
+            } else {
+                res.json({classes: "Error"});
+            }
         } else {
             res.json({classes: "Error"});
         }
