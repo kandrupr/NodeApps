@@ -4,7 +4,6 @@ const cheerio = require('cheerio')
 const lowerCase = require('lower-case');
 
 const router = express.Router();
-
 const wClass = require('../../weightClasses/wClasses');
 
 // @route   GET api/classes
@@ -40,12 +39,18 @@ router.get('/:class', (req, res) => {
             if(param !== undefined) {
                 const $ = cheerio.load(body);
                 const main = "#block-mainpagecontent div div:nth-child(2) div div div div.view-content div.view-grouping:nth-child(" + param +") "
-                const champion = $(main + 'div.info h5').text();
+                const champion = $(main + 'div.info h5').text().trimRight().trimLeft();
+                for(let i = 1; i < 16; i++) {
+                    let fighterEntry = main + "div.view-grouping-content table tbody tr:nth-child(" + i +") ";
+                    let rank = $(fighterEntry + 'td.views-field-weight-class-rank').text().trimLeft();
+                    let name = $(fighterEntry + 'td.views-field-title div div div a').text();
+                }
                 top.push({
                     "Champion": champion,
                 });            
                 res.json({"division": top});
-                console.log(top);
+
+                //console.log(division);
             } else {
                 res.json({classes: "Error"});
             }
